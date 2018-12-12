@@ -1,5 +1,4 @@
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -90,7 +89,7 @@ public class ResiliencyTest {
 		return selection;
 	}
 	
-	private static String validGWID = "5c0daadef7e6f7178ef66cd4" ;
+	private static String validGWID = "5c10868ed4a607255b9d2e35" ;
 	private static String invalidGWID = "5bf08ff7a1987";
 	private static String validToken = "batool@stedwards.edu" ;
 	private static String invalidToken = "123" ;
@@ -104,24 +103,24 @@ public class ResiliencyTest {
 		JSONObject jsonObject=null;
 		String response="";
 		JSONObject urlParametersJson = new JSONObject();
-        String gwId="5c0daadef7e6f7178ef66cd4";
+        String gwId="5c10868ed4a607255b9d2e35";
         urlParametersJson.put("GatewayId",gwId);
-        String url = "https://team12.dev.softwareengineeringii.com/api/gateway/newGateway";
+        String url = "https://team12.app.softwareengineeringii.com/api/gateway/newGateway";
         
         try {
 	            response = Requests.sendPost(url, urlParametersJson);
-	            //System.out.println("response"+response);
-	    			JSONParser jsonParser = new JSONParser();
-	           jsonObject = (JSONObject) jsonParser.parse(response);
-	           jsonObjectForToken = (JSONObject) jsonObject.get("Gateway");
-	           if(jsonObjectForToken!=null)
-	           {
-	           		gatewayController.MainEventLoop.writeToFileGwIdAndToken(gwId,jsonObjectForToken);
-	           }
-	           if(jsonObjectForToken==null)
-	           {
-	           		System.out.println("--Error-- Gateway is not found!! ");
-	           }
+//	            //System.out.println("response"+response);
+//	    			JSONParser jsonParser = new JSONParser();
+//	           jsonObject = (JSONObject) jsonParser.parse(response);
+//	           jsonObjectForToken = (JSONObject) jsonObject.get("Gateway");
+//	           if(jsonObjectForToken!=null)
+//	           {
+//	           		gatewayController.MainEventLoop.writeToFileGwIdAndToken(gwId,jsonObjectForToken);
+//	           }
+//	           if(jsonObjectForToken==null)
+//	           {
+//	           		System.out.println("--Error-- Gateway is not found!! ");
+//	           }
            
        } catch (Exception e) {
 
@@ -141,7 +140,7 @@ public class ResiliencyTest {
 		JSONObject urlParametersJson = new JSONObject();
         String gwId="5bf08ff7a19877";
         urlParametersJson.put("GatewayId",gwId);
-        String url = "https://team12.dev.softwareengineeringii.com/api/gateway/newGateway";
+        String url = "https://team12.app.softwareengineeringii.com/api/gateway/newGateway";
         
         try {
 	            response = Requests.sendPost(url, urlParametersJson);
@@ -166,7 +165,7 @@ public class ResiliencyTest {
 		}
 		//System.out.println(urlParametersJson.toString());
 		String url="";
-		url = "https://team12.dev.softwareengineeringii.com/api/gateway/heartbeat/"+ReadPython.readGatewayControllerID();
+		url = "https://team12.app.softwareengineeringii.com/api/gateway/heartbeat/"+validGWID;
 
 		try
         {
@@ -186,7 +185,7 @@ public class ResiliencyTest {
 		BufferedReader inDiagnostics = new BufferedReader(new InputStreamReader(pDiagnostics.getInputStream()));
 		json.put("TimeStamp",inDiagnostics.readLine());
 		json.put("Token",invalidToken);
-		System.out.println("readPythonWithWrongToken() "+json.toString());
+		//System.out.println("readPythonWithWrongToken() "+json.toString());
 		return json;
 	}
 	private static void menuPostHeartbeatWithValidGatewayIdAndInvalidToken() throws IOException, ParseException
@@ -200,7 +199,7 @@ public class ResiliencyTest {
 		{
 			e1.printStackTrace();
 		}
-		String url = "https://team12.dev.softwareengineeringii.com/api/gateway/heartbeat/"+validGWID;
+		String url = "https://team12.app.softwareengineeringii.com/api/gateway/heartbeat/"+validGWID;
 
 		try
         {
@@ -234,7 +233,7 @@ public class ResiliencyTest {
 		{
 			e1.printStackTrace();
 		}
-		String url = "https://team12.dev.softwareengineeringii.com/api/gateway/heartbeat/"+invalidGWID;
+		String url = "https://team12.app.softwareengineeringii.com/api/gateway/heartbeat/"+invalidGWID;
 
 		try
         {
@@ -245,7 +244,7 @@ public class ResiliencyTest {
 			e.printStackTrace();
 		}
 	}
-	//////////
+	
 	private static JSONObject readPythonWithWrongIdAndToken() throws IOException, ParseException 
 	{
 		
@@ -269,7 +268,7 @@ public class ResiliencyTest {
 		{
 			e1.printStackTrace();
 		}
-		String url = "https://team12.dev.softwareengineeringii.com/api/gateway/heartbeat/"+invalidGWID;
+		String url = "https://team12.app.softwareengineeringii.com/api/gateway/heartbeat/"+invalidGWID;
 
 		try
         {
