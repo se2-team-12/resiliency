@@ -3,6 +3,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.Scanner;
@@ -10,6 +11,7 @@ import java.util.Scanner;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import gatewayController.MainEventLoop;
 import gatewayController.ReadPython;
 import gatewayController.Requests;
 
@@ -96,11 +98,10 @@ public class ResiliencyTest {
 	////////////
 	private static void menuInitializeValidGatewayId()
 	{
-		//System.out.print("initialize valid gateway id ");
 		
-		JSONObject jsonObjectForToken=null;
-		File file = new File("gatewayID.txt");
-		JSONObject jsonObject=null;
+//		JSONObject jsonObjectForToken=null;
+//		File file = new File("gatewayID.txt");
+//		JSONObject jsonObject=null;
 		String response="";
 		JSONObject urlParametersJson = new JSONObject();
         String gwId="5c10868ed4a607255b9d2e35";
@@ -109,20 +110,8 @@ public class ResiliencyTest {
         
         try {
 	            response = Requests.sendPost(url, urlParametersJson);
-//	            //System.out.println("response"+response);
-//	    			JSONParser jsonParser = new JSONParser();
-//	           jsonObject = (JSONObject) jsonParser.parse(response);
-//	           jsonObjectForToken = (JSONObject) jsonObject.get("Gateway");
-//	           if(jsonObjectForToken!=null)
-//	           {
-//	           		gatewayController.MainEventLoop.writeToFileGwIdAndToken(gwId,jsonObjectForToken);
-//	           }
-//	           if(jsonObjectForToken==null)
-//	           {
-//	           		System.out.println("--Error-- Gateway is not found!! ");
-//	           }
            
-       } catch (Exception e) {
+        } catch (Exception e) {
 
            e.printStackTrace();
        }
@@ -297,24 +286,22 @@ public class ResiliencyTest {
 	
 	public static  String readGatewayControllerID()
 	{
-		String filename = "gatewayID.txt";
-		Scanner inputFile = null;
+		
 		String gatewayID="";
-		
+		InputStream streamDailyDiagnostics = (InputStream) MainEventLoop.class.getResourceAsStream("/res/gatewayID.txt");
+		Scanner inputDailyDiagnostics = null;
 		try {
-			inputFile = new Scanner(new File(filename));
-		
-		}catch(FileNotFoundException e) {
-			System.out.println("FAILURE cannot open file: " + filename + " for input" +
-					" EXIT ON FAILURE TO OPEN FILE.");
-			System.exit(0);
+		 inputDailyDiagnostics = new Scanner (streamDailyDiagnostics);
+		} catch (Exception e) {
+			
+			e.getLocalizedMessage();
 		}
-	
-		if(inputFile.hasNext())
+
+		if(inputDailyDiagnostics.hasNext())
 		{
-			gatewayID = inputFile.next();
+			gatewayID = inputDailyDiagnostics.next();
 		}	
-		inputFile.close();
+		inputDailyDiagnostics.close();
 		return gatewayID;
 	}
 	private static void menuRunDiagnostics() throws IOException, ParseException
